@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Chance Song: computer science student at UBC building mobile, web and data projects.">
+<title>Chance Song</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Ante's paper-and-ink world. A clay turntable hero, then a notebook-style index of projects, experience, skills and contact. */
+:root {
+  --bg: #FBF5EC;          /* cream */
+  --bg-2: #F4ECDF;
+  --card: #FFFCF7;
+  --line: #EDE2D1;
+  --line-strong: #DCCDB6;
+  --ink: #3B2F28;         /* cocoa */
+  --ink-2: #6B5C51;
+  --muted: #726357;
+  --accent: #B8472A;      /* tomato */
+  --accent-soft: rgba(184, 71, 42, 0.12);
+  --on-ink: #FFFCF7;
+  --good: #2A734A; --good-soft: rgba(42, 115, 74, 0.12);
+  --warn: #8C5B00; --warn-soft: rgba(230, 170, 50, 0.18);
+  --info: #2F6D86; --info-soft: rgba(47, 109, 134, 0.12);
+  --plate: #F1E7D8;
+  --shadow: 0 8px 28px rgba(107, 79, 58, 0.10);
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --step--1: 0.8125rem;
+  --step-1: 1.25rem;
+  --step-2: 1.875rem;
+  --step-3: clamp(2.4rem, 5vw + 0.6rem, 4rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1714; --bg-2: #241E1A; --card: #26201C; --line: #382F29; --line-strong: #4C4038;
+    --ink: #F6EDE1; --ink-2: #C9BAAB; --muted: #A49383; --accent: #F08A6C; --accent-soft: rgba(240, 138, 108, 0.14);
+    --on-ink: #1C1714; --good: #86CFA0; --good-soft: rgba(134, 207, 160, 0.15);
+    --warn: #F2C46B; --warn-soft: rgba(242, 196, 107, 0.15); --info: #8FCBE3; --info-soft: rgba(124, 196, 221, 0.12);
+    --plate: #312924; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1714; --bg-2: #241E1A; --card: #26201C; --line: #382F29; --line-strong: #4C4038;
+  --ink: #F6EDE1; --ink-2: #C9BAAB; --muted: #A49383; --accent: #F08A6C; --accent-soft: rgba(240, 138, 108, 0.14);
+  --on-ink: #1C1714; --good: #86CFA0; --good-soft: rgba(134, 207, 160, 0.15);
+  --warn: #F2C46B; --warn-soft: rgba(242, 196, 107, 0.15); --info: #8FCBE3; --info-soft: rgba(124, 196, 221, 0.12);
+  --plate: #312924; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.6;
+  padding-inline: 16px; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin-inline: auto; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+.label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+/* top bar */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; flex-wrap: wrap; }
+.mark { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.top nav a:hover { color: var(--ink); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 36px; align-items: center; padding-block: 12px 52px; }
+.hero-copy { display: grid; gap: 20px; min-width: 0; }
+.hero h1 { font-size: var(--step-3); line-height: 1.04; font-weight: 500; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p { margin: 0; color: var(--ink-2); font-size: 1.125rem; max-width: 38ch; }
+.facts { display: flex; gap: 30px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.facts div { display: grid; gap: 0; }
+.facts strong { font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; }
+
+.stage { position: relative; min-width: 0; border-radius: 28px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+#scene { display: block; width: 100%; height: 480px; cursor: grab; touch-action: pan-y; }
+#scene.dragging { cursor: grabbing; }
+#scene.pointing { cursor: pointer; }
+.stage-hint { position: absolute; top: 16px; left: 20px; }
+.now {
+  position: absolute; left: 14px; right: 14px; bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px 12px 18px;
+}
+.now > div { min-width: 0; }
+.now b { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; display: block; }
+.now span { color: var(--ink-2); font-size: 0.925rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn { flex: none; background: var(--ink); color: var(--on-ink); text-decoration: none; font: 600 0.9rem var(--font-body); padding: 9px 16px; border-radius: 999px; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+
+.picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.picker button {
+  font: 500 0.875rem var(--font-body); color: var(--ink); background: var(--card);
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.picker button i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.picker button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+
+/* sections */
+section { padding-block: 44px; border-top: 1px solid var(--line); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.section-head h2 { font-size: var(--step-2); }
+
+.project { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px; padding-block: 36px; border-bottom: 1px solid var(--line); scroll-margin-top: 16px; }
+.project:last-child { border-bottom: 0; }
+.meta { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.meta h3 { font-size: var(--step-2); display: flex; align-items: center; gap: 12px; }
+.meta h3 i { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.pill { justify-self: start; font: 600 0.8rem var(--font-body); padding: 3px 10px; border-radius: 999px; }
+.pill.live { background: var(--good-soft); color: var(--good); }
+.pill.testing { background: var(--warn-soft); color: var(--warn); }
+.pill.other { background: var(--info-soft); color: var(--info); }
+.spec { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 0.9rem; }
+.spec dt { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding-top: 3px; }
+.spec dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.body { display: grid; gap: 16px; min-width: 0; max-width: 68ch; }
+.body .lede { font-family: var(--font-display); font-weight: 500; font-size: 1.35rem; line-height: 1.35; margin: 0; }
+.body p { margin: 0; color: var(--ink-2); }
+.body ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; color: var(--ink-2); }
+.body li::marker { color: var(--accent); }
+.body li b { color: var(--ink); font-weight: 600; }
+.links { display: flex; gap: 18px; flex-wrap: wrap; font-weight: 600; }
+.flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.85rem; font-weight: 500; }
+.flow span { border: 1px solid var(--line); background: var(--card); padding: 4px 10px; border-radius: 8px; }
+.flow em { font-style: normal; color: var(--muted); }
+
+/* experience */
+.timeline { display: grid; gap: 0; margin-top: 12px; }
+.role { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+.role:last-child { border-bottom: 0; }
+.role h3 { font-size: 1.3rem; }
+.role .when { color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.skill-group { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: grid; gap: 12px; align-content: start; }
+.skill-group h3 { font-size: 1.15rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.chips li { font-size: 0.875rem; font-weight: 500; background: var(--bg-2); border-radius: 999px; padding: 3px 11px; }
+.coursework { margin-top: 20px; color: var(--ink-2); max-width: 80ch; }
+.coursework b { color: var(--ink); }
+
+/* contact */
+.contact { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: start; }
+.contact h2 { font-size: var(--step-3); font-weight: 500; line-height: 1.05; }
+.contact p { color: var(--ink-2); margin: 12px 0 0; max-width: 40ch; }
+.contact-list { display: grid; gap: 10px; }
+.contact-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 14px 20px; }
+.contact-row > div { min-width: 0; display: grid; }
+.contact-row .value { font-weight: 600; font-size: 1.05rem; overflow-wrap: anywhere; user-select: all; }
+.contact-row .actions { display: flex; gap: 8px; }
+.toast { color: var(--good); font-size: 0.85rem; font-weight: 600; }
+
+footer { padding-block: 28px 48px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 860px) {
+  .hero, .project, .role, .contact { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  #scene { height: 380px; }
+  .skills { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  #scene { height: 340px; }
+  .now span { display: none; }
+}
+
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#top" id="top">Chance Song</a>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="label">Computer Science · University of British Columbia</span>
+      <h1>I build apps for <em>small, real</em> problems.</h1>
+      <div class="facts">
+        <div><strong>7</strong><span class="label">Projects</span></div>
+        <div><strong>2</strong><span class="label">Live apps</span></div>
+        <div><strong>4</strong><span class="label">Platforms</span></div>
+      </div>
+      <div class="picker" id="picker" aria-label="Turn the table to a project"></div>
+    </div>
+
+    <div class="stage">
+      <canvas id="scene" aria-label="A turntable of clay models, one for each project. Drag to spin it, or click a model to bring it to the front."></canvas>
+      <span class="label stage-hint">Drag to spin · click a model</span>
+      <div class="now" aria-live="polite">
+        <div><b id="now-name">Snoozy</b><span id="now-line">Android app that puts Reels to sleep</span></div>
+        <a class="btn" id="now-link" href="#snoozy">View project ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <span class="label">Newest first</span>
+    </div>
+
+    <article class="project" id="snoozy">
+      <div class="meta">
+        <h3><i style="background:#7FA7D9"></i>Snoozy</h3>
+        <span class="pill live">Live on Google Play</span>
+        <dl class="spec">
+          <dt>When</dt><dd>Sep 2026</dd>
+          <dt>Platform</dt><dd>Android 8.0+</dd>
+          <dt>Stack</dt><dd>Kotlin, Android Accessibility Service</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">Puts Instagram Reels and YouTube Shorts to sleep, and leaves the rest of each app alone.</p>
+        <p>Open a Reel and Snoozy sends you back to the screen you came from, with a small note that Reels are snoozing. Your feed, DMs, stories, profile, search and regular YouTube videos all keep working.</p>
+        <ul>
+          <li><b>Blocks only the scroll.</b> Detects the Reels and Shorts players and backs out of them, muting the Reel for the moment before it closes.</li>
+          <li><b>Snooze timer</b> from 15 minutes to 24 hours that can't be turned off early, with custom lengths in hours and minutes.</li>
+          <li><b>Reels in Chats.</b> Watch the one Reel a friend sent in a DM or group chat. Swiping to more stays blocked. Allow or block each chat.</li>
+          <li><b>Private by design.</b> No account, no ads, no analytics, and no internet permission, so nothing can leave the phone.</li>
+        </ul>
+        <div class="links">
+          <a href="https://play.google.com/store/apps/details?id=com.snoozy.app">Google Play ↗</a>
+          <a href="https://snoozyapp.github.io">Website ↗</a>
+          <a href="https://github.com/chancesong10/Snoozy">Source ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="ante">
+      <div class="meta">
+        <h3><i style="background:#D9674A"></i>Ante</h3>
+        <span class="pill testing">In testing</span>
+        <dl class="spec">
+          <dt>When</dt><dd>2026 – now</dd>
+          <dt>Role</dt><dd>Software Engineer</dd>
+          <dt>Platform</dt><dd>iOS &amp; Android</dd>
+          <dt>Stack</dt><dd>React Native, Expo, Supabase, PostgreSQL, Jest</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">A bankroll tracker for gamblers, with a statistician built in.</p>
+        <p>Casinos know your numbers to the cent, but most players only have a feeling. Ante logs every hand, bet, buy-in and cash-out as it happens, then does the arithmetic. It never touches real money or connects to a casino.</p>
+        <ul>
+          <li><b>Six game trackers</b> for blackjack, poker, sports betting, roulette, baccarat and general play. Poker walks every street per player with a fully derived pot and won't advance on mismatched bets.</li>
+          <li><b>Session ledger</b> with per-session ROI, win rate, profit factor and a bankroll-over-time chart that replaces manual spreadsheet tracking.</li>
+          <li><b>Leak detector</b> that surfaces patterns memory hides: loss chasing from post-loss bet sizing, tilt, session fatigue and conditional win rates, each gated by sample size.</li>
+          <li><b>Offline-first sync.</b> Fixed a silent bug that dropped synced sessions between accounts by rebuilding Supabase sync with encrypted local storage and integration tests that reproduced the clock-skew failure.</li>
+          <li><b>240 Jest tests across 14 suites</b> that caught state-sync race conditions in multi-session and multi-account flows before release.</li>
+          <li><b>Responsible gaming.</b> Tiered stop-loss alerts that can't be swiped away, with a helpline link.</li>
+        </ul>
+        <div class="links">
+          <a href="https://anteapp.github.io/index.html">Website ↗</a>
+          <a href="https://github.com/chancesong10/Ante">Source ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="learnio">
+      <div class="meta">
+        <h3><i style="background:#86CFA0"></i>LearnIO</h3>
+        <span class="pill other">HackCamp build</span>
+        <dl class="spec">
+          <dt>When</dt><dd>2025, built in 24 hours</dd>
+          <dt>Platform</dt><dd>Desktop</dd>
+          <dt>Stack</dt><dd>Python, TypeScript, FastAPI, Electron, SQLite, Tailwind, Gemini API</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">A study toolkit that turns a syllabus into a practice exam.</p>
+        <p>Drop in a course syllabus. LearnIO pulls out the course and its topics, finds past exams online, extracts their questions into a local question bank, and builds a practice test filtered to the topics you pick.</p>
+        <div class="flow" aria-label="Pipeline">
+          <span>Syllabus</span><em>→</em><span>Topics</span><em>→</em><span>Past exams</span><em>→</em><span>Question bank</span><em>→</em><span>Practice exam</span>
+        </div>
+        <ul>
+          <li><b>Working end to end within HackCamp's 24-hour window</b>, with an Electron front end and a FastAPI backend tying together Gemini, PDF processing, web search and SQLite.</li>
+          <li><b>From hours to 30 seconds.</b> Finding practice exams went from hours of searching to about 30 seconds by downloading PDFs and running Gemini extraction concurrently with asyncio, using a semaphore and exponential-backoff retries to stay inside free-tier rate limits.</li>
+          <li><b>1,000+ exam questions</b> parsed, classified and indexed by automated Python scraping pipelines.</li>
+          <li>Also generates flashcards and keyword lists from the same backend.</li>
+        </ul>
+        <div class="links"><a href="https://github.com/chancesong10/Learnio">Source ↗</a></div>
+      </div>
+    </article>
+
+    <article class="project" id="research">
+      <div class="meta">
+        <h3><i style="background:#C3A6EE"></i>Who plays the most?</h3>
+        <span class="pill other">Group research report</span>
+        <dl class="spec">
+          <dt>When</dt><dd>Nov – Dec 2025</dd>
+          <dt>Data</dt><dd>197 players, UBC PLAI Minecraft server</dd>
+          <dt>Stack</dt><dd>Jupyter, k-nearest neighbours</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">Can you predict how long someone will play from who they are?</p>
+        <p>With three teammates, I analysed player data from a Minecraft research server run by UBC's PLAI group.</p>
+        <ul>
+          <li><b>Wrangled and cleaned</b> the players and sessions datasets, dropping empty and identifying columns.</li>
+          <li><b>Found that nearly half the players had zero hours logged</b>, and excluded them so the model wasn't skewed toward non-players.</li>
+          <li><b>Built a KNN classifier</b> to test whether age and experience level predict play time, then reported where the model did and didn't hold up.</li>
+        </ul>
+        <div class="links"><a href="https://github.com/chancesong10/video-game-research-project">Notebook ↗</a></div>
+      </div>
+    </article>
+
+    <article class="project" id="poker">
+      <div class="meta">
+        <h3><i style="background:#F2D27A"></i>Poker Analytics Engine</h3>
+        <span class="pill other">Java project</span>
+        <dl class="spec">
+          <dt>When</dt><dd>2025</dd>
+          <dt>Platform</dt><dd>Desktop</dd>
+          <dt>Stack</dt><dd>Java, JUnit, Java Swing, JSON, UML</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">Win probabilities for a poker table, fast enough to use mid-hand.</p>
+        <ul>
+          <li><b>Monte Carlo engine</b> that runs 30,000+ trials and returns win probabilities for up to 9 players in under 200 ms.</li>
+          <li><b>75% faster per evaluation</b> after replacing pairwise hand comparison with a precomputed hand-rank lookup table.</li>
+          <li><b>All 2,598,960 five-card hands verified</b> with 70+ JUnit tests at 100% line coverage.</li>
+          <li>Architecture drafted in UML, with an interactive Java Swing UI that simplifies multi-player setup.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="project" id="allbookd">
+      <div class="meta">
+        <h3><i style="background:#F29AB0"></i>AllBookd</h3>
+        <span class="pill live">Live on the web</span>
+        <dl class="spec">
+          <dt>When</dt><dd>2025 – 2026</dd>
+          <dt>Platform</dt><dd>Web</dd>
+          <dt>Stack</dt><dd>TypeScript, Next.js, React, Supabase, PostgreSQL, Tailwind CSS, Framer Motion, Vercel</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">A place to discover books and keep lists of the ones you want to read.</p>
+        <p>Browse trending bestsellers and genres, search the catalogue, open a book page, and add titles to your lists. Accounts come with email verification, a profile, a bio and a resizable avatar upload.</p>
+        <ul>
+          <li><b>Full-stack and live on Vercel</b>, built with Next.js, React and Supabase.</li>
+          <li><b>Authentication and cross-device sync</b> with Supabase Auth and PostgreSQL row-level security on user tables.</li>
+          <li><b>45% faster initial load</b> after moving client-rendered routes to server-side rendering with response-level caching.</li>
+          <li><b>Normalized PostgreSQL schema</b> for catalog and user-library data, with indexed queries behind search and browse.</li>
+          <li>Responsive UI in Tailwind CSS and Framer Motion, refined through Figma prototypes.</li>
+        </ul>
+        <div class="links">
+          <a href="https://allbookd.vercel.app/">Visit site ↗</a>
+          <a href="https://github.com/chancesong10/AllBookd">Source ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="caridle">
+      <div class="meta">
+        <h3><i style="background:#F2A65A"></i>Car Idle</h3>
+        <span class="pill other">Android game</span>
+        <dl class="spec">
+          <dt>When</dt><dd>2024 – 2025</dd>
+          <dt>Platform</dt><dd>Android</dd>
+          <dt>Stack</dt><dd>Godot, GDScript, Agile, Kanban</dd>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lede">A pixel-art idle game about a car dodging missiles down the highway.</p>
+        <p>Built with a small team using Kanban, feature branches and pull requests.</p>
+        <ul>
+          <li><b>Shipped as a downloadable Android game</b> with physics-driven movement, collision handling, respawning and level progression.</li>
+          <li><b>Reusable object-oriented entity system</b> with persistent save state and data-driven levels, lanes and loot tables.</li>
+          <li><b>Idle economy</b> with exponential cost scaling across 4 upgrade paths, including gears and acceleration, for long-term progression.</li>
+          <li>Reworked the touch joystick for tighter control on phones.</li>
+        </ul>
+        <div class="links"><a href="https://github.com/chancesong10/Car-Idle">Source ↗</a></div>
+      </div>
+    </article>
+  </section>
+
+  <section id="experience">
+    <div class="section-head"><h2>Experience &amp; education</h2></div>
+    <div class="timeline">
+      <div class="role">
+        <div><h3>University of British Columbia</h3><span class="when">B.Sc. Computer Science · 2024 – 2028</span></div>
+        <div class="body"><p>Coursework in data structures and algorithms, software engineering, database systems, computer systems, data science, statistics, linear algebra, discrete math, models of computation and object-oriented design.</p></div>
+      </div>
+      <div class="role">
+        <div><h3>Ante</h3><span class="when">Software Engineer · Vancouver · 2026</span></div>
+        <div class="body"><p>Building the Ante bankroll tracker in React Native with offline-first Supabase sync and a 240-test Jest suite. <a href="#ante">See the project ↑</a></p></div>
+      </div>
+      <div class="role">
+        <div><h3>UBC Geering Up</h3><span class="when">Junior Instructor · Vancouver · 2024</span></div>
+        <div class="body"><ul>
+          <li>Taught programming, object-oriented design and game development to 60+ students across 12 week-long summer camps.</li>
+          <li>Raised project completion rates by mentoring students through live debugging and structured problem-solving.</li>
+        </ul></div>
+      </div>
+      <div class="role">
+        <div><h3>Programming Club</h3><span class="when">Founder &amp; President · Port Moody · 2021 – 2024</span></div>
+        <div class="body"><ul>
+          <li>Founded and led a club of 50+ active members, running recruitment, workshops and weekly lessons.</li>
+          <li>Organized and hosted competitive programming contests including CCC and BCC, drawing hundreds of student participants.</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <a class="btn ghost" href="Chance_Song_Resume.pdf" target="_blank" rel="noopener">Open résumé (PDF) ↗</a>
+    </div>
+    <div class="skills">
+      <div class="skill-group">
+        <h3>Languages</h3>
+        <ul class="chips"><li>Python</li><li>Java</li><li>TypeScript</li><li>JavaScript</li><li>SQL</li><li>C</li><li>C++</li><li>Go</li><li>Kotlin</li><li>GDScript</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>Frameworks &amp; tools</h3>
+        <ul class="chips"><li>React</li><li>React Native</li><li>Expo</li><li>Next.js</li><li>FastAPI</li><li>Electron</li><li>Tailwind CSS</li><li>Framer Motion</li><li>Supabase</li><li>PostgreSQL</li><li>SQLite</li><li>Docker</li><li>AWS</li><li>Vercel</li><li>PyTorch</li><li>Scrapy</li><li>Jest</li><li>JUnit</li><li>Java Swing</li><li>Godot</li><li>Jupyter</li><li>Gemini API</li><li>Git</li><li>Figma</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>Concepts</h3>
+        <ul class="chips"><li>System design</li><li>Full stack</li><li>Backend</li><li>REST APIs</li><li>CI/CD</li><li>DevOps</li><li>Offline-first sync</li><li>Unit &amp; automated testing</li><li>Object-oriented design</li><li>UML</li><li>Monte Carlo simulation</li><li>k-NN classification</li><li>Agile &amp; Kanban</li><li>Version control</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div>
+      <h2>Want to see more or work together?</h2>
+      <p>I'm open to internships, co-op roles and interesting projects. Email is the fastest way to reach me.</p>
+    </div>
+    <div class="contact-list">
+      <div class="contact-row">
+        <div><span class="label">Email</span><span class="value" id="email">chancesong10@gmail.com</span></div>
+        <div class="actions">
+          <span class="toast" id="copied" hidden>Copied</span>
+          <button class="btn ghost" type="button" id="copy-email">Copy</button>
+          <a class="btn" href="mailto:chancesong10@gmail.com">Email me</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div><span class="label">LinkedIn</span><span class="value">linkedin.com/in/chancesong</span></div>
+        <div class="actions"><a class="btn" href="https://www.linkedin.com/in/chancesong/">Open ↗</a></div>
+      </div>
+      <div class="contact-row">
+        <div><span class="label">GitHub</span><span class="value">github.com/chancesong10</span></div>
+        <div class="actions"><a class="btn" href="https://github.com/chancesong10">Open ↗</a></div>
+      </div>
+      <div class="contact-row">
+        <div><span class="label">Résumé</span><span class="value">Chance_Song_Resume.pdf</span></div>
+        <div class="actions"><a class="btn" href="Chance_Song_Resume.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Chance Song · Vancouver, BC</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  // copy email
+  const copyBtn = document.getElementById("copy-email"), copied = document.getElementById("copied");
+  copyBtn.addEventListener("click", () => {
+    const done = () => { copied.hidden = false; setTimeout(() => { copied.hidden = true; }, 1800); };
+    const selectIt = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("email")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText("chancesong10@gmail.com").then(done, selectIt); } catch (e) { selectIt(); }
+  });
+
+  const PROJECTS = [
+    { id: "snoozy",   name: "Snoozy",                 line: "Android app that puts Reels to sleep",    color: "#7FA7D9" },
+    { id: "ante",     name: "Ante",                   line: "Bankroll tracker with a leak detector",   color: "#D9674A" },
+    { id: "learnio",  name: "LearnIO",                line: "Syllabus in, practice exam out",          color: "#86CFA0" },
+    { id: "research", name: "Who plays the most?",    line: "KNN study of Minecraft player data",      color: "#C3A6EE" },
+    { id: "poker",    name: "Poker Analytics Engine", line: "Monte Carlo odds in under 200 ms",        color: "#F2D27A" },
+    { id: "allbookd", name: "AllBookd",               line: "Book discovery and reading lists",        color: "#F29AB0" },
+    { id: "caridle",  name: "Car Idle",               line: "Idle racing game for Android",            color: "#F2A65A" }
+  ];
+
+  const picker = document.getElementById("picker");
+  const nowName = document.getElementById("now-name");
+  const nowLine = document.getElementById("now-line");
+  const nowLink = document.getElementById("now-link");
+  let frontIndex = 0;
+
+  PROJECTS.forEach((p, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.id = "pick-" + p.id;
+    b.innerHTML = '<i style="background:' + p.color + '"></i>' + p.name;
+    b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    b.addEventListener("click", () => turnTo(i));
+    picker.appendChild(b);
+  });
+
+  function setFront(i) {
+    if (i === frontIndex && nowName.textContent === PROJECTS[i].name) return;
+    frontIndex = i;
+    const p = PROJECTS[i];
+    nowName.textContent = p.name;
+    nowLine.textContent = p.line;
+    nowLink.href = "#" + p.id;
+    picker.querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-pressed", j === i ? "true" : "false"));
+  }
+
+  let turnTo = i => setFront(i);
+  if (typeof THREE === "undefined") return; // page still reads fine without the 3D stage
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canvas = document.getElementById("scene");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  camera.position.set(0, 4.8, 12.5);
+  camera.lookAt(0, 0.7, 0);
+
+  const hemi = new THREE.HemisphereLight(0xfff6ea, 0xb49b85, 0.9);
+  scene.add(hemi);
+  const sun = new THREE.DirectionalLight(0xfff1e0, 0.75);
+  sun.position.set(4, 9, 6);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6 });
+  sun.shadow.radius = 4;
+  scene.add(sun);
+
+  const clay = (hex, rough) => new THREE.MeshStandardMaterial({ color: hex, roughness: rough ?? 0.78, metalness: 0 });
+  function mesh(geo, mat, x, y, z) {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x || 0, y || 0, z || 0);
+    m.castShadow = true; m.receiveShadow = true;
+    return m;
+  }
+  const CREAM = 0xfffcf7, COCOA = 0x3b2f28;
+
+  // turntable
+  const plateMat = clay(0xf1e7d8, 0.9);
+  const plate = mesh(new THREE.CylinderGeometry(4.6, 4.7, 0.32, 80), plateMat, 0, -0.16, 0);
+  plate.castShadow = false;
+  scene.add(plate);
+  const ring = new THREE.Group();
+  scene.add(ring);
+
+  function syncTheme() {
+    const v = getComputedStyle(document.documentElement).getPropertyValue("--plate").trim() || "#F1E7D8";
+    plateMat.color.set(v);
+  }
+  syncTheme();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", syncTheme);
+  new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  const tickers = [];
+  function textTexture(draw, w, h) {
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    draw(c.getContext("2d"), w, h);
+    const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+  }
+
+  // Snoozy: a sleepy phone in a nightcap
+  function makeSnoozy() {
+    const g = new THREE.Group();
+    const phone = new THREE.Group();
+    phone.add(mesh(new THREE.BoxGeometry(0.95, 1.7, 0.16), clay(0x7fa7d9), 0, 0, 0));
+    phone.add(mesh(new THREE.BoxGeometry(0.8, 1.5, 0.02), clay(CREAM, 0.5), 0, 0, 0.085));
+    const eye = new THREE.BoxGeometry(0.2, 0.04, 0.02), dark = clay(COCOA);
+    phone.add(mesh(eye, dark, -0.18, 0.1, 0.1));
+    phone.add(mesh(eye, dark, 0.18, 0.1, 0.1));
+    phone.add(mesh(new THREE.BoxGeometry(0.12, 0.04, 0.02), clay(0xf29ab0), 0, -0.14, 0.1));
+    const cap = mesh(new THREE.ConeGeometry(0.48, 0.9, 28), clay(0xf2c46b), 0.08, 1.15, 0);
+    cap.rotation.z = -0.35;
+    phone.add(cap);
+    const brim = mesh(new THREE.TorusGeometry(0.42, 0.08, 10, 28), clay(CREAM), 0, 0.82, 0);
+    brim.rotation.x = Math.PI / 2;
+    phone.add(brim);
+    phone.add(mesh(new THREE.SphereGeometry(0.14, 16, 12), clay(CREAM), 0.36, 1.55, 0));
+    phone.position.y = 0.95;
+    g.add(phone);
+
+    const zs = [];
+    const zTex = textTexture((x) => {
+      x.fillStyle = "#3F67A0"; x.font = "600 54px Fraunces, Georgia, serif";
+      x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("z", 32, 30);
+    }, 64, 64);
+    for (let i = 0; i < 3; i++) {
+      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: zTex, transparent: true }));
+      g.add(s); zs.push(s);
+    }
+    tickers.push(t => {
+      phone.rotation.z = 0.12 + Math.sin(t * 1.2) * 0.04;
+      zs.forEach((s, i) => {
+        const k = ((t * 0.35) + i / 3) % 1;
+        s.position.set(0.55 + k * 0.5, 2.1 + k * 0.9, 0.1);
+        s.material.opacity = Math.sin(k * Math.PI);
+        s.scale.setScalar(0.22 + k * 0.2);
+      });
+    });
+    return g;
+  }
+
+  // Ante: a tomato poker chip on edge next to a short stack
+  function makeAnte() {
+    const g = new THREE.Group();
+    const chipGeo = new THREE.CylinderGeometry(0.62, 0.62, 0.16, 40);
+    const red = clay(0xd9674a), white = clay(CREAM);
+    function chip(col) {
+      const c = new THREE.Group();
+      const m = clay(col);
+      c.add(mesh(chipGeo, m));
+      c.add(mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.17, 40), white));
+      c.add(mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.18, 40), m));
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2;
+        const s = mesh(new THREE.BoxGeometry(0.12, 0.165, 0.2), white, Math.sin(a) * 0.56, 0, Math.cos(a) * 0.56);
+        s.rotation.y = a; c.add(s);
+      }
+      return c;
+    }
+    const standing = chip(0xd9674a);
+    standing.rotation.x = Math.PI / 2;
+    const holder = new THREE.Group();
+    holder.add(standing); holder.position.set(-0.2, 0.64, 0);
+    g.add(holder);
+    [0x3b2f28, 0x86cfa0, 0xd9674a].forEach((col, i) => {
+      const c = chip(col); c.position.set(0.75, 0.08 + i * 0.17, -0.35); c.rotation.y = i * 0.4; c.scale.setScalar(0.8); g.add(c);
+    });
+    tickers.push(t => { holder.rotation.y = t * 0.9; });
+    return g;
+  }
+
+  // LearnIO: a fanned stack of flashcards
+  function makeLearnio() {
+    const g = new THREE.Group();
+    const card = new THREE.BoxGeometry(1.25, 0.04, 0.85);
+    const paper = clay(CREAM, 0.9);
+    const cards = [];
+    for (let i = 0; i < 5; i++) {
+      const c = new THREE.Group();
+      c.add(mesh(card, paper));
+      c.add(mesh(new THREE.BoxGeometry(1.25, 0.045, 0.14), clay(i === 4 ? 0x86cfa0 : 0xe6daca), 0, 0.001, -0.35));
+      if (i === 4) [0.05, 0.2].forEach(z => c.add(mesh(new THREE.BoxGeometry(0.8, 0.046, 0.05), clay(0xa39383), -0.1, 0.001, z)));
+      c.position.y = 0.04 + i * 0.07;
+      c.rotation.y = (i - 2) * 0.13;
+      g.add(c); cards.push(c);
+    }
+    const top = cards[4];
+    const pencil = new THREE.Group();
+    pencil.add(mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.9, 8), clay(0xf2c46b)));
+    pencil.add(mesh(new THREE.ConeGeometry(0.06, 0.16, 8), clay(COCOA), 0, -0.53, 0));
+    pencil.rotation.z = Math.PI / 2; pencil.position.set(0, 0.07, 0.6); pencil.rotation.y = 0.4;
+    g.add(pencil);
+    tickers.push(t => {
+      const k = Math.max(0, Math.sin(t * 0.9));
+      top.position.y = 0.32 + k * 0.35;
+      top.rotation.x = -k * 0.5;
+    });
+    return g;
+  }
+
+  // Research: a 3D scatter plot with two classes of points
+  function makeResearch() {
+    const g = new THREE.Group();
+    g.add(mesh(new THREE.BoxGeometry(1.5, 0.08, 1.5), clay(0xf4ecdf), 0, 0.04, 0));
+    const axis = clay(COCOA);
+    g.add(mesh(new THREE.BoxGeometry(0.04, 1.4, 0.04), axis, -0.72, 0.75, -0.72));
+    g.add(mesh(new THREE.BoxGeometry(1.44, 0.04, 0.04), axis, 0, 0.1, -0.72));
+    g.add(mesh(new THREE.BoxGeometry(0.04, 0.04, 1.44), axis, -0.72, 0.1, 0));
+    const dotGeo = new THREE.SphereGeometry(0.075, 14, 10);
+    const a = clay(0xa684dd, 0.5), b = clay(0x5fae80, 0.5);
+    let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const dots = [];
+    for (let i = 0; i < 26; i++) {
+      const cls = i % 2;
+      const d = mesh(dotGeo, cls ? b : a,
+        (cls ? 0.25 : -0.3) + (rnd() - 0.5) * 0.7,
+        (cls ? 0.95 : 0.45) + (rnd() - 0.5) * 0.6,
+        (rnd() - 0.5) * 1.1);
+      d.userData.base = d.position.y; d.userData.phase = rnd() * 6;
+      g.add(d); dots.push(d);
+    }
+    tickers.push(t => dots.forEach(d => { d.position.y = d.userData.base + Math.sin(t * 1.4 + d.userData.phase) * 0.04; }));
+    return g;
+  }
+
+  // Poker engine: a fanned hand of cards over a felt pad
+  function makePoker() {
+    const g = new THREE.Group();
+    g.add(mesh(new THREE.CylinderGeometry(0.85, 0.85, 0.06, 40), clay(0x2a734a, 0.95), 0, 0.03, 0));
+    const faces = [["A", "♠", "#3B2F28"], ["K", "♥", "#B3394E"], ["Q", "♦", "#B3394E"], ["J", "♣", "#3B2F28"], ["10", "♠", "#3B2F28"]];
+    const cards = [];
+    faces.forEach(([r, s, col], i) => {
+      const tex = textTexture((x, w, h) => {
+        x.fillStyle = "#FFFCF7"; x.fillRect(0, 0, w, h);
+        x.strokeStyle = "#DCCDB6"; x.lineWidth = 6; x.strokeRect(3, 3, w - 6, h - 6);
+        x.fillStyle = col; x.textAlign = "center"; x.textBaseline = "middle";
+        x.font = "600 64px Fraunces, Georgia, serif"; x.fillText(r, w / 2, h * 0.36);
+        x.font = "80px Georgia, serif"; x.fillText(s, w / 2, h * 0.68);
+      }, 128, 180);
+      const front = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 });
+      const edge = clay(CREAM, 0.6);
+      const c = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.87, 0.02), [edge, edge, edge, edge, front, edge]);
+      c.castShadow = true;
+      const pivot = new THREE.Group();
+      c.position.y = 0.55;
+      pivot.add(c);
+      pivot.position.set(0, 0.12, -0.1 + i * 0.012);
+      pivot.userData.base = (i - 2) * 0.28;
+      pivot.rotation.z = -pivot.userData.base;
+      g.add(pivot); cards.push(pivot);
+    });
+    tickers.push(t => {
+      const spread = 1 + Math.sin(t * 1.1) * 0.15;
+      cards.forEach(p => { p.rotation.z = -p.userData.base * spread; });
+    });
+    return g;
+  }
+
+  // AllBookd: a little shelf of books
+  function makeAllBookd() {
+    const g = new THREE.Group();
+    const specs = [[0.26, 1.35, 0xf29ab0], [0.2, 1.15, 0x7cc4dd], [0.3, 1.5, 0xf2d27a], [0.22, 1.2, 0x8fb4ec]];
+    let x = -0.55;
+    specs.forEach(([w, h, c]) => {
+      const bk = new THREE.Group();
+      bk.add(mesh(new THREE.BoxGeometry(w, h, 0.85), clay(c)));
+      bk.add(mesh(new THREE.BoxGeometry(w + 0.01, 0.08, 0.86), clay(CREAM), 0, h * 0.28, 0));
+      bk.position.set(x + w / 2, h / 2, 0);
+      x += w + 0.03;
+      g.add(bk);
+    });
+    const lean = new THREE.Group();
+    lean.add(mesh(new THREE.BoxGeometry(0.24, 1.25, 0.85), clay(0x86cfa0), 0, 0.625, 0));
+    lean.position.set(x + 0.02, 0, 0); lean.rotation.z = -0.38;
+    g.add(lean);
+    const flat = mesh(new THREE.BoxGeometry(0.95, 0.14, 0.7), clay(0xd9674a), -0.1, 0.07, 0.75);
+    flat.rotation.y = 0.3; g.add(flat);
+    tickers.push(t => { lean.rotation.z = -0.38 + Math.sin(t * 1.1) * 0.05; });
+    return g;
+  }
+
+  // Car Idle: a chunky low-poly car
+  function makeCar() {
+    const g = new THREE.Group();
+    const body = new THREE.Group();
+    const paint = clay(0xf2a65a);
+    body.add(mesh(new THREE.BoxGeometry(1.6, 0.38, 0.85), paint, 0, 0.42, 0));
+    body.add(mesh(new THREE.BoxGeometry(0.85, 0.34, 0.75), paint, -0.1, 0.78, 0));
+    body.add(mesh(new THREE.BoxGeometry(0.87, 0.22, 0.77), clay(0x3b2f28, 0.4), -0.1, 0.8, 0));
+    body.add(mesh(new THREE.BoxGeometry(0.06, 0.1, 0.18), clay(0xfff1b8, 0.3), 0.81, 0.46, 0.25));
+    body.add(mesh(new THREE.BoxGeometry(0.06, 0.1, 0.18), clay(0xfff1b8, 0.3), 0.81, 0.46, -0.25));
+    g.add(body);
+    const wheels = [];
+    const wg = new THREE.CylinderGeometry(0.21, 0.21, 0.16, 18), wm = clay(0x2a231f, 0.9);
+    [[0.52, 0.45], [0.52, -0.45], [-0.52, 0.45], [-0.52, -0.45]].forEach(([x, z]) => {
+      const w = mesh(wg, wm, x, 0.21, z); w.rotation.x = Math.PI / 2; g.add(w); wheels.push(w);
+    });
+    g.rotation.y = Math.PI / 2 - 0.35;
+    tickers.push(t => {
+      wheels.forEach(w => { w.rotation.y = -t * 5; });
+      body.position.y = Math.abs(Math.sin(t * 7)) * 0.03;
+    });
+    return g;
+  }
+
+  const builders = { snoozy: makeSnoozy, ante: makeAnte, learnio: makeLearnio, research: makeResearch, poker: makePoker, allbookd: makeAllBookd, caridle: makeCar };
+  const R = 3.2, step = (Math.PI * 2) / PROJECTS.length;
+  const holders = PROJECTS.map((p, i) => {
+    const h = new THREE.Group();
+    h.add(builders[p.id]());
+    const a = i * step;
+    h.position.set(Math.sin(a) * R, 0, Math.cos(a) * R);
+    h.rotation.y = a;
+    h.userData = { index: i, lift: 0, hop: 0 };
+    h.traverse(o => { o.userData.holder = h; });
+    ring.add(h);
+    return h;
+  });
+
+  // rotation state
+  let angle = 0, target = 0, lastInput = -1e9;
+  const nearest = () => ((Math.round(-target / step) % PROJECTS.length) + PROJECTS.length) % PROJECTS.length;
+  turnTo = i => {
+    let d = (-i * step - target) % (Math.PI * 2);
+    if (d > Math.PI) d -= Math.PI * 2;
+    if (d < -Math.PI) d += Math.PI * 2;
+    target += d;
+    lastInput = performance.now();
+    setFront(i);
+  };
+
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  let hovered = null, dragging = false, startX = 0, moved = 0;
+  function pick(e) {
+    const r = canvas.getBoundingClientRect();
+    ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ptr, camera);
+    const hit = ray.intersectObjects(ring.children, true)[0];
+    return hit ? hit.object.userData.holder : null;
+  }
+  canvas.addEventListener("pointerdown", e => {
+    dragging = true; startX = e.clientX; moved = 0;
+    canvas.setPointerCapture(e.pointerId);
+    canvas.classList.add("dragging");
+  });
+  canvas.addEventListener("pointermove", e => {
+    if (dragging) {
+      const dx = e.clientX - startX; startX = e.clientX; moved += Math.abs(dx);
+      target += dx * 0.012; lastInput = performance.now();
+      return;
+    }
+    hovered = pick(e);
+    canvas.classList.toggle("pointing", !!hovered);
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false; canvas.classList.remove("dragging");
+    if (moved < 6) {
+      // a click brings the model to the front and makes it hop; "View project" is what scrolls
+      const h = pick(e);
+      if (h) { h.userData.hop = 1; turnTo(h.userData.index); }
+    } else {
+      target = Math.round(target / step) * step;
+      setFront(nearest());
+    }
+  }
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", endDrag);
+  canvas.addEventListener("pointerleave", () => { if (!dragging) { hovered = null; canvas.classList.remove("pointing"); } });
+
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.position.z = w < 520 ? 15.5 : 12.5;
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(canvas);
+  resize();
+
+  let visible = true;
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(canvas);
+
+  const clock = new THREE.Clock();
+  let t = 0;
+  function frame() {
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    const dt = Math.min(clock.getDelta(), 0.05);
+    if (!reduceMotion) t += dt;
+    if (performance.now() - lastInput > 5000 && !dragging && !reduceMotion) {
+      target -= dt * 0.12;
+      setFront(nearest());
+    }
+    angle += (target - angle) * Math.min(1, dt * 6);
+    ring.rotation.y = angle;
+    tickers.forEach(fn => fn(t));
+    holders.forEach(h => {
+      const u = h.userData;
+      const up = (h === hovered || u.index === frontIndex) ? 1 : 0;
+      u.lift += (up - u.lift) * Math.min(1, dt * 8);
+      u.hop = Math.max(0, u.hop - dt * 2.2);
+      h.position.y = u.lift * 0.12 + Math.sin(u.hop * Math.PI) * 0.5;
+      h.scale.setScalar(h === hovered ? 1.07 : 1);
+    });
+    renderer.render(scene, camera);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
