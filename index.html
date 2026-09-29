@@ -25,7 +25,7 @@
   --good: #2A734A; --good-soft: rgba(42, 115, 74, 0.12);
   --warn: #8C5B00; --warn-soft: rgba(230, 170, 50, 0.18);
   --info: #2F6D86; --info-soft: rgba(47, 109, 134, 0.12);
-  --plate: #F1E7D8;
+  --plate: #F4ECDF;
   --shadow: 0 8px 28px rgba(107, 79, 58, 0.10);
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -40,7 +40,7 @@
     --ink: #F6EDE1; --ink-2: #C9BAAB; --muted: #A49383; --accent: #F08A6C; --accent-soft: rgba(240, 138, 108, 0.14);
     --on-ink: #1C1714; --good: #86CFA0; --good-soft: rgba(134, 207, 160, 0.15);
     --warn: #F2C46B; --warn-soft: rgba(242, 196, 107, 0.15); --info: #8FCBE3; --info-soft: rgba(124, 196, 221, 0.12);
-    --plate: #312924; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
+    --plate: #241E1A; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
@@ -48,7 +48,7 @@
   --ink: #F6EDE1; --ink-2: #C9BAAB; --muted: #A49383; --accent: #F08A6C; --accent-soft: rgba(240, 138, 108, 0.14);
   --on-ink: #1C1714; --good: #86CFA0; --good-soft: rgba(134, 207, 160, 0.15);
   --warn: #F2C46B; --warn-soft: rgba(242, 196, 107, 0.15); --info: #8FCBE3; --info-soft: rgba(124, 196, 221, 0.12);
-  --plate: #312924; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
+  --plate: #241E1A; --shadow: 0 8px 24px rgba(0, 0, 0, 0.3); color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -71,32 +71,36 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: bala
 .top nav a:hover { color: var(--ink); }
 
 /* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 36px; align-items: center; padding-block: 12px 52px; }
-.hero-copy { display: grid; gap: 20px; min-width: 0; }
-.hero h1 { font-size: var(--step-3); line-height: 1.04; font-weight: 500; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 18px; padding-block: 36px 0; }
+.hero h1 { font-size: clamp(2.6rem, 6vw + 0.6rem, 5.25rem); line-height: 1.02; font-weight: 500; max-width: 15ch; }
 .hero h1 em { font-style: italic; color: var(--accent); }
 .hero p { margin: 0; color: var(--ink-2); font-size: 1.125rem; max-width: 38ch; }
-.facts { display: flex; gap: 30px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
-.facts div { display: grid; gap: 0; }
+.facts { display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.facts div { display: grid; justify-items: center; gap: 0; }
 .facts strong { font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; }
 
-.stage { position: relative; min-width: 0; border-radius: 28px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
-#scene { display: block; width: 100%; height: 480px; cursor: grab; touch-action: pan-y; }
+/* full-bleed stage: no card, the canvas edges fade into the page so the table sits on the paper */
+.stage { position: relative; margin-inline: -16px; margin-top: -40px; }
+#scene {
+  display: block; width: 100%; height: clamp(400px, 44vw, 600px); cursor: grab; touch-action: pan-y;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+}
 #scene.dragging { cursor: grabbing; }
 #scene.pointing { cursor: pointer; }
-.stage-hint { position: absolute; top: 16px; left: 20px; }
+.stage-ui { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 14px; position: relative; margin-top: -28px; padding-bottom: 52px; }
 .now {
-  position: absolute; left: 14px; right: 14px; bottom: 14px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px 12px 18px;
+  display: flex; align-items: center; gap: 16px; max-width: 100%;
+  background: var(--card); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow);
+  padding: 8px 8px 8px 22px;
 }
-.now > div { min-width: 0; }
-.now b { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; display: block; }
-.now span { color: var(--ink-2); font-size: 0.925rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.now > div { min-width: 0; display: flex; align-items: baseline; gap: 12px; }
+.now b { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; white-space: nowrap; }
+.now span { color: var(--ink-2); font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .btn { flex: none; background: var(--ink); color: var(--on-ink); text-decoration: none; font: 600 0.9rem var(--font-body); padding: 9px 16px; border-radius: 999px; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
 
-.picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.picker { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 900px; }
 .picker button {
   font: 500 0.875rem var(--font-body); color: var(--ink); background: var(--card);
   border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer;
@@ -163,13 +167,14 @@ section { padding-block: 44px; border-top: 1px solid var(--line); }
 footer { padding-block: 28px 48px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
 
 @media (max-width: 860px) {
-  .hero, .project, .role, .contact { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  #scene { height: 380px; }
+  .project, .role, .contact { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  #scene { height: 440px; }
   .skills { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 480px) {
-  #scene { height: 340px; }
+  #scene { height: 400px; }
   .now span { display: none; }
+  .now { padding-left: 18px; }
 }
 
 body { margin: 0; }
@@ -191,25 +196,28 @@ img { max-width: 100%; }
   </header>
 
   <div class="hero">
-    <div class="hero-copy">
-      <span class="label">Computer Science · University of British Columbia</span>
-      <h1>I build apps for <em>small, real</em> problems.</h1>
-      <div class="facts">
-        <div><strong>7</strong><span class="label">Projects</span></div>
-        <div><strong>2</strong><span class="label">Live apps</span></div>
-        <div><strong>4</strong><span class="label">Platforms</span></div>
-      </div>
-      <div class="picker" id="picker" aria-label="Turn the table to a project"></div>
+    <span class="label">Computer Science · University of British Columbia</span>
+    <h1>I build apps for <em>small, real</em> problems.</h1>
+    <div class="facts">
+      <div><strong>7</strong><span class="label">Projects</span></div>
+      <div><strong>2</strong><span class="label">Live apps</span></div>
+      <div><strong>4</strong><span class="label">Platforms</span></div>
     </div>
+  </div>
+</div>
 
-    <div class="stage">
-      <canvas id="scene" aria-label="A turntable of clay models, one for each project. Drag to spin it, or click a model to bring it to the front."></canvas>
-      <span class="label stage-hint">Drag to spin · click a model</span>
-      <div class="now" aria-live="polite">
-        <div><b id="now-name">Snoozy</b><span id="now-line">Android app that puts Reels to sleep</span></div>
-        <a class="btn" id="now-link" href="#snoozy">View project ↓</a>
-      </div>
+<div class="stage">
+  <canvas id="scene" aria-label="A turntable of clay models, one for each project. Drag to spin it, or click a model to bring it to the front."></canvas>
+</div>
+
+<div class="wrap">
+  <div class="stage-ui">
+    <div class="now" aria-live="polite">
+      <div><b id="now-name">Snoozy</b><span id="now-line">Android app that puts Reels to sleep</span></div>
+      <a class="btn" id="now-link" href="#snoozy">View project ↓</a>
     </div>
+    <div class="picker" id="picker" aria-label="Turn the table to a project"></div>
+    <span class="label">Drag to spin · click a model</span>
   </div>
 
   <section id="work">
@@ -538,8 +546,6 @@ img { max-width: 100%; }
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  camera.position.set(0, 4.8, 12.5);
-  camera.lookAt(0, 0.7, 0);
 
   const hemi = new THREE.HemisphereLight(0xfff6ea, 0xb49b85, 0.9);
   scene.add(hemi);
@@ -562,15 +568,15 @@ img { max-width: 100%; }
 
   // turntable
   const plateMat = clay(0xf1e7d8, 0.9);
-  const plate = mesh(new THREE.CylinderGeometry(4.6, 4.7, 0.32, 80), plateMat, 0, -0.16, 0);
+  const plate = mesh(new THREE.CylinderGeometry(5.3, 5.4, 0.32, 96), plateMat, 0, -0.16, 0);
   plate.castShadow = false;
   scene.add(plate);
   const ring = new THREE.Group();
   scene.add(ring);
 
   function syncTheme() {
-    const v = getComputedStyle(document.documentElement).getPropertyValue("--plate").trim() || "#F1E7D8";
-    plateMat.color.set(v);
+    const v = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() || "#FBF5EC";
+    plateMat.color.set(v).convertSRGBToLinear().multiplyScalar(0.7);
   }
   syncTheme();
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", syncTheme);
@@ -789,7 +795,7 @@ img { max-width: 100%; }
   }
 
   const builders = { snoozy: makeSnoozy, ante: makeAnte, learnio: makeLearnio, research: makeResearch, poker: makePoker, allbookd: makeAllBookd, caridle: makeCar };
-  const R = 3.2, step = (Math.PI * 2) / PROJECTS.length;
+  const R = 3.7, step = (Math.PI * 2) / PROJECTS.length;
   const holders = PROJECTS.map((p, i) => {
     const h = new THREE.Group();
     h.add(builders[p.id]());
@@ -857,7 +863,13 @@ img { max-width: 100%; }
     const w = canvas.clientWidth, h = canvas.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    camera.position.z = w < 520 ? 15.5 : 12.5;
+    // back the camera off just enough to fit the ring's width (inside the faded edges) and its height
+    const tv = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+    const halfW = (R + 1.6) * (camera.aspect < 1.4 ? 1.05 : 1.3);
+    const dist = Math.max(halfW / (tv * camera.aspect), 3.5 / tv);
+    const el = 0.4, lookY = 0.2, lookZ = 1.5;
+    camera.position.set(0, lookY + Math.sin(el) * dist, lookZ + Math.cos(el) * dist);
+    camera.lookAt(0, lookY, lookZ);
     camera.updateProjectionMatrix();
   }
   new ResizeObserver(resize).observe(canvas);
