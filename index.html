@@ -808,6 +808,25 @@ img { max-width: 100%; }
     return h;
   });
 
+  // spotlight on the front slot: a warm cone from above plus a soft pool of the project's colour on the plate
+  const spot = new THREE.SpotLight(0xfff4e2, 0.9, 12, 0.32, 0.7, 1.2);
+  spot.position.set(0, 6.5, R + 1.2);
+  spot.target.position.set(0, 0.3, R);
+  scene.add(spot, spot.target);
+  const glowTex = textTexture((x, w, h) => {
+    const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+    g.addColorStop(0, "rgba(255,255,255,1)");
+    g.addColorStop(0.45, "rgba(255,255,255,0.45)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+  }, 128, 128);
+  const glowMat = new THREE.MeshBasicMaterial({ map: glowTex, color: PROJECTS[0].color, transparent: true, opacity: 0.5, depthWrite: false });
+  const glow = new THREE.Mesh(new THREE.CircleGeometry(1.35, 48), glowMat);
+  glow.rotation.x = -Math.PI / 2;
+  glow.position.set(0, 0.01, R);
+  scene.add(glow);
+  const glowColor = new THREE.Color();
+
   // rotation state
   let angle = 0, target = 0, lastInput = -1e9;
   const nearest = () => ((Math.round(-target / step) % PROJECTS.length) + PROJECTS.length) % PROJECTS.length;
@@ -892,6 +911,13 @@ img { max-width: 100%; }
     angle += (target - angle) * Math.min(1, dt * 6);
     ring.rotation.y = angle;
     tickers.forEach(fn => fn(t));
+    // the spotlight dims while the ring is turning and comes up once a model settles in front
+    const settled = 1 - Math.min(1, Math.abs(target - angle) / (step * 0.5));
+    const pulse = 1 + Math.sin(t * 2) * 0.06;
+    spot.intensity = 0.9 * settled * pulse;
+    glowColor.set(PROJECTS[frontIndex].color);
+    glowMat.color.lerp(glowColor, Math.min(1, dt * 5));
+    glowMat.opacity = 0.5 * settled * pulse;
     holders.forEach(h => {
       const u = h.userData;
       const up = (h === hovered || u.index === frontIndex) ? 1 : 0;
